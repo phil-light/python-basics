@@ -3,152 +3,18 @@ import ipyturtle3 as turtle
 from ipyturtle3 import hold_canvas
 
 
-colors = ['silver'
-,'gray'
-,'maroon'
-,'red'
-,'purple'
-,'fuchsia'
-,'green'
-,'lime'
-,'olive'
-,'yellow'
-,'navy'
-,'blue'
-,'teal'
-,'aqua'
-,'orange'
-,'aliceblue'
-,'antiquewhite'
-,'aquamarine'
-,'azure'
-,'beige'
-,'bisque'
-,'blanchedalmond'
-,'blueviolet'
-,'brown'
-,'burlywood'
-,'cadetblue'
-,'chartreuse'
-,'chocolate'
-,'coral'
-,'cornflowerblue'
-,'cornsilk'
-,'crimson'
-,'darkblue'
-,'darkcyan'
-,'darkgoldenrod'
-,'darkgray'
-,'darkgreen'
-,'darkkhaki'
-,'darkmagenta'
-,'darkolivegreen'
-,'darkorange'
-,'darkorchid'
-,'darkred'
-,'darksalmon'
-,'darkseagreen'
-,'darkslateblue'
-,'darkslategray'
-,'darkturquoise'
-,'darkviolet'
-,'deeppink'
-,'deepskyblue'
-,'dimgray'
-,'dodgerblue'
-,'firebrick'
-,'floralwhite'
-,'forestgreen'
-,'gainsboro'
-,'ghostwhite'
-,'gold'
-,'goldenrod'
-,'greenyellow'
-,'honeydew'
-,'hotpink'
-,'indianred'
-,'indigo'
-,'ivory'
-,'khaki'
-,'lavender'
-,'lavenderblush'
-,'lawngreen'
-,'lemonchiffon'
-,'lightblue'
-,'lightcoral'
-,'lightcyan'
-,'lightgoldenrodyellow'
-,'lightgray'
-,'lightgreen'
-,'lightpink'
-,'lightsalmon'
-,'lightseagreen'
-,'lightskyblue'
-,'lightslategray'
-,'lightsteelblue'
-,'lightyellow'
-,'limegreen'
-,'linen'
-,'mediumaquamarine'
-,'mediumblue'
-,'mediumorchid'
-,'mediumpurple'
-,'mediumseagreen'
-,'mediumslateblue'
-,'mediumspringgreen'
-,'mediumturquoise'
-,'mediumvioletred'
-,'midnightblue'
-,'mintcream'
-,'mistyrose'
-,'moccasin'
-,'navajowhite'
-,'oldlace'
-,'olivedrab'
-,'orangered'
-,'orchid'
-,'palegoldenrod'
-,'palegreen'
-,'paleturquoise'
-,'palevioletred'
-,'papayawhip'
-,'peachpuff'
-,'peru'
-,'pink'
-,'plum'
-,'powderblue'
-,'rosybrown'
-,'royalblue'
-,'saddlebrown'
-,'salmon'
-,'sandybrown'
-,'seagreen'
-,'seashell'
-,'sienna'
-,'skyblue'
-,'slateblue'
-,'slategray'
-,'snow'
-,'springgreen'
-,'steelblue'
-,'tan'
-,'thistle'
-,'tomato'
-,'turquoise'
-,'violet'
-,'wheat'
-,'whitesmoke'
-,'yellowgreen'
-,'rebeccapurple']
-
 
 # Directions: (dx, dy)
 DIRS = [(0, -1), (1, 0), (0, 1), (-1, 0)]
 # Recursive backtracking maze generation
-def generate_maze(maze_rows, maze_cols, x, y):
+def generate_maze(maze_rows, maze_cols, unique_maze_number):
+    random.seed(unique_maze_number)
     # Maze grid: 0 = wall, 1 = path
-    maze = [[0 for _ in range(MAZE_COLS)] for _ in range(MAZE_ROWS)]
+    maze = [[0 for _ in range(maze_cols)] for _ in range(maze_rows)]
+    return _gen_maze(maze, maze_rows, maze_cols, 1, 1)
 
+
+def _gen_maze(maze, maze_rows, maze_cols, x, y):
     maze[y][x] = 1
     dirs = DIRS[:]
     random.shuffle(dirs)
@@ -156,7 +22,7 @@ def generate_maze(maze_rows, maze_cols, x, y):
         nx, ny = x + dx * 2, y + dy * 2
         if 0 <= nx < maze_cols and 0 <= ny < maze_rows and maze[ny][nx] == 0:
             maze[y + dy][x + dx] = 1
-            generate_maze(maze, maze_rows, maze_cols, nx, ny)
+            _gen_maze(maze, maze_rows, maze_cols, nx, ny)
     return maze
 
 
@@ -206,8 +72,119 @@ def draw_maze(my_ts, my_canvas, canvas_width, canvas_height, cell_size, maze):
                             waller.penup()
                         waller.movedown(cell_size)
 
+        waller.penup()
+        waller.color(random.choice(colors))
+        waller.home()
+        waller.moveleft((canvas_width / -2) + (random.random() * canvas_width))
+        waller.moveup((canvas_height / -2) + (random.random() * canvas_height))
+
+colors = ['maroon'
+,'red'
+,'purple'
+,'fuchsia'
+,'green'
+,'lime'
+,'olive'
+,'yellow'
+,'navy'
+,'blue'
+,'teal'
+,'aqua'
+,'orange'
+,'aliceblue'
+,'aquamarine'
+,'azure'
+,'blueviolet'
+,'brown'
+,'burlywood'
+,'cadetblue'
+,'chartreuse'
+,'chocolate'
+,'coral'
+,'cornflowerblue'
+,'cornsilk'
+,'crimson'
+,'darkblue'
+,'darkcyan'
+,'darkgoldenrod'
+,'darkgray'
+,'darkgreen'
+,'darkkhaki'
+,'darkmagenta'
+,'darkolivegreen'
+,'darkorange'
+,'darkorchid'
+,'darkred'
+,'darksalmon'
+,'darkseagreen'
+,'darkslateblue'
+,'darkslategray'
+,'darkturquoise'
+,'darkviolet'
+,'deeppink'
+,'deepskyblue'
+,'dimgray'
+,'dodgerblue'
+,'firebrick'
+,'forestgreen'
+,'gainsboro'
+,'gold'
+,'goldenrod'
+,'greenyellow'
+,'honeydew'
+,'hotpink'
+,'indianred'
+,'lavender'
+,'lawngreen'
+,'mediumaquamarine'
+,'mediumblue'
+,'mediumorchid'
+,'mediumpurple'
+,'mediumseagreen'
+,'mediumslateblue'
+,'mediumspringgreen'
+,'mediumturquoise'
+,'mediumvioletred'
+,'midnightblue'
+,'mistyrose'
+,'moccasin'
+,'olivedrab'
+,'orangered'
+,'orchid'
+,'papayawhip'
+,'peru'
+,'pink'
+,'plum'
+,'powderblue'
+,'rosybrown'
+,'royalblue'
+,'saddlebrown'
+,'salmon'
+,'sandybrown'
+,'seagreen'
+,'sienna'
+,'slateblue'
+,'slategray'
+,'springgreen'
+,'steelblue'
+,'tan'
+,'thistle'
+,'tomato'
+,'turquoise'
+,'violet'
+,'wheat'
+,'yellowgreen'
+,'rebeccapurple']
+
+def make_maze_runner(turtle_screen):
+    runner = turtle.Turtle(turtle_screen)
+    runner.shape("turtle")
+    runner.width(3)
+    return runner
+
 
 def start_maze(runner):
+    random.seed()
     runner.penup()
     runner.home()
     runner.left(90)
@@ -217,6 +194,8 @@ def start_maze(runner):
     runner.left(180)
     runner.pendown()
     runner.color(random.choice(colors))
+
+
 
 
 if __name__ == '__main__':
