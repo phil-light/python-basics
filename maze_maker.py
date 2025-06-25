@@ -78,6 +78,27 @@ def draw_maze(my_ts, my_canvas, canvas_width, canvas_height, cell_size, maze):
         waller.moveleft((canvas_width / -2) + (random.random() * canvas_width))
         waller.moveup((canvas_height / -2) + (random.random() * canvas_height))
 
+
+def make_maze_runner(turtle_screen):
+    runner = turtle.Turtle(turtle_screen)
+    runner.shape("turtle")
+    runner.width(3)
+    return runner
+
+
+def start_maze(runner, canvas_width, canvas_height, cell_size):
+    random.seed()
+    runner.penup()
+    runner.home()
+    runner.left(90)
+    runner.forward(canvas_height / 2 - cell_size)
+    runner.left(90)
+    runner.forward(canvas_width / 2 - cell_size)
+    runner.left(180)
+    runner.pendown()
+    runner.color(random.choice(colors))
+
+
 colors = ['maroon'
 ,'red'
 ,'purple'
@@ -149,27 +170,6 @@ colors = ['maroon'
 ,'turquoise'
 ,'violet'
 ,'yellowgreen']
-
-def make_maze_runner(turtle_screen):
-    runner = turtle.Turtle(turtle_screen)
-    runner.shape("turtle")
-    runner.width(3)
-    return runner
-
-
-def start_maze(runner):
-    random.seed()
-    runner.penup()
-    runner.home()
-    runner.left(90)
-    runner.forward(130)
-    runner.left(90)
-    runner.forward(230)
-    runner.left(180)
-    runner.pendown()
-    runner.color(random.choice(colors))
-
-
 
 
 if __name__ == '__main__':
