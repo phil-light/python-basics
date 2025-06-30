@@ -38,21 +38,24 @@ def draw_maze(my_ts, my_canvas, canvas_width, canvas_height, cell_size, maze):
     waller.pendown()
 
     with hold_canvas(my_canvas):
-        for r, row in enumerate(maze[::2]):
-            for c, is_clear in enumerate(row):
-                if c + 1 == len(row):
-                    waller.penup()
-                    waller.moveleft(canvas_width - cell_size)
-                    waller.movedown(cell_size * 2)
-                else:
-                    if not is_clear and not row[c + 1]:
-                        waller.pendown()
-                    else:
+        for r, row in enumerate(maze):
+            if r % 2 == 1:
+                waller.movedown(cell_size)
+            else:
+                for c, is_clear in enumerate(row):
+                    if c + 1 == len(row):
                         waller.penup()
-                    waller.moveright(cell_size)
+                        waller.moveleft(canvas_width - cell_size)
+                        waller.movedown(cell_size)
+                    else:
+                        if not is_clear and not row[c + 1]:
+                            waller.pendown()
+                        else:
+                            waller.penup()
+                        waller.moveright(cell_size)
 
         waller.penup()
-        waller.moveup(canvas_height + cell_size)
+        waller.moveup(canvas_height)
 
         transposed_iterator = zip(*maze)
 
@@ -114,7 +117,6 @@ colors = ['maroon'
 ,'orange'
 ,'aliceblue'
 ,'aquamarine'
-,'azure'
 ,'blueviolet'
 ,'brown'
 ,'cadetblue'
